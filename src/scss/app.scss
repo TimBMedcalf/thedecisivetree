@@ -1,0 +1,7 @@
+// Must import first as this holds variables that other styles are dependant on
+@import './variables';
+
+@import './global';
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';

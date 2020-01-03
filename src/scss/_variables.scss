@@ -1,0 +1,14 @@
+// Override default bootstrap variables before the import
+$body-bg: #1e1e1e;
+$body-color: #f3f3f4;
+$primary: #3791e6;
+$info: #242222;
+$success: #5da260;
+$warning: #db9228;
+$danger: #f44336;
+$font-family-serif: 'Lora', serif !default;
+$font-family-monospace: 'Overpass Mono', monospace !default;
+$font-family-base: $font-family-serif !default;
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Lora:400,700|Overpass+Mono&display=swap');
