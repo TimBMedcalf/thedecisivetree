@@ -1,0 +1,15 @@
+.typewriter {
+  font-family: $font-family-monospace;
+  display: inline-block;
+}
+
+#cursor {
+  border-left: 0.1em solid #fff;
+  animation: blink 0.7s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
