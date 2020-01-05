@@ -1,14 +1,22 @@
-import React from 'react';
-import Typest from '../components/Typest';
+import React, { useState } from 'react';
+import Typest from '../components/Typer/Typest';
+import UserDecision from '../components/Typer/UserDecision';
 
 function Home() {
+  const [decisionText, setDecisionText] = useState('');
+
+  const handleDecision = e => setDecisionText(e.target.innerHTML);
+
   return (
     <div className='container'>
       <section className='algopicker typewritter'>
         <h2 className='typewriter-text'>
           <Typest
             sentences={['Are you looking to store, search or sort data?']}
+            decisions={{ sentence: 0, words: ['store', 'search', 'sort'] }}
+            handleDecision={handleDecision}
           />
+          <UserDecision decision={decisionText} />
         </h2>
       </section>
     </div>

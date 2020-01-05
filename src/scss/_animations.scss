@@ -1,6 +1,17 @@
 .typewriter {
   font-family: $font-family-monospace;
-  display: inline-block;
+  display: inline;
+}
+
+.typewriter-input {
+  margin: 10px 0px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  color: #fff;
+  &:focus {
+    outline: none;
+  }
 }
 
 #cursor {
