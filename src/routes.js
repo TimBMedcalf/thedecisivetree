@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './pages/Home';
+import TheDecisionTree from './pages/TheDecisionTree';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function routes() {
@@ -7,7 +7,7 @@ function routes() {
     <Router>
       <Switch>
         <Route exact path='/'>
-          <Home />
+          <TheDecisionTree />
         </Route>
       </Switch>
     </Router>
