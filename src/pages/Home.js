@@ -5,7 +5,7 @@ import UserDecision from '../components/Typer/UserDecision';
 function Home() {
   const [decisionText, setDecisionText] = useState('');
 
-  const handleDecision = e => setDecisionText(e.target.innerHTML);
+  const handleDecision = e => setDecisionText(e.target.innerHTML.trim());
 
   return (
     <div className='container'>
@@ -16,7 +16,10 @@ function Home() {
             decisions={{ sentence: 0, words: ['store', 'search', 'sort'] }}
             handleDecision={handleDecision}
           />
-          <UserDecision decision={decisionText} />
+          <UserDecision
+            decision={decisionText}
+            decisions={['store', 'search', 'sort']}
+          />
         </h2>
       </section>
     </div>
