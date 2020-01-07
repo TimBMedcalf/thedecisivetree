@@ -9,6 +9,10 @@ $danger: #f44336;
 $font-family-serif: 'Lora', serif !default;
 $font-family-monospace: 'Overpass Mono', monospace !default;
 $font-family-base: $font-family-serif !default;
+$grid-sm: 768px;
+$grid-md: 992px;
+$grid-lg: 1200px;
+$grid-lg: 1600px;
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Lora:400,700|Overpass+Mono&display=swap');
