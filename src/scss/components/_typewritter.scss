@@ -1,0 +1,58 @@
+#cursor {
+  border-left: 0.1em solid #fff;
+  animation: blink 0.7s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.typewriter-input {
+  margin-top: 30px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  max-width: 100%;
+  font-size: 38px;
+  @media (max-width: $grid-sm) {
+    font-size: 24px !important;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.typer {
+  display: inline;
+  font-size: 38px;
+  @media (max-width: $grid-sm) {
+    font-size: 24px !important;
+  }
+}
+
+.autocomplete {
+  margin-top: 30px;
+  max-width: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  color: #ccc;
+  background: transparent;
+  border: none;
+  font-size: 38px;
+  @media (max-width: $grid-sm) {
+    font-size: 24px !important;
+  }
+}
+
+.user-input {
+  position: relative;
+}
