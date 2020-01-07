@@ -4,9 +4,17 @@ import UserDecision from '../components/Typer/UserDecision';
 
 function TheDecisionTree() {
   const [decisionText, setDecisionText] = useState('');
+  const [decisionIndex, setDecisionIndex] = useState(0);
 
   //Gets the button value of the users decision
-  const handleDecision = e => setDecisionText(e.target.innerHTML.trim());
+  const handleDecision = e => {
+    setDecisionText(e.target.innerHTML.trim());
+
+    //Increments the level of the decision tree the user is on
+    if (decisionIndex < userTree.length - 1) {
+      setDecisionIndex(decisionIndex + 1);
+    }
+  };
 
   const userTree = [
     {
@@ -29,27 +37,26 @@ function TheDecisionTree() {
     {
       sentences: ['This is test number 4'],
       decisions: {
-        sentence: 1,
+        sentence: 0,
         words: ['4']
       }
     }
   ];
 
   return (
-    <div className='container'>
-      <section className='the-decision-tree typewritter'>
+    <div className='the-decision-tree'>
+      <section className='typewritter'>
         <h2 className='typewriter-text'>
           <Typest
-            sentences={[
-              'Hello and welcome to my decision tree!',
-              'Are you looking to store, search or sort data?'
-            ]}
-            decisions={{ sentence: 1, words: ['store', 'search', 'sort'] }}
+            key={`typer: ${decisionIndex}`}
+            sentences={userTree[decisionIndex].sentences}
+            decisions={userTree[decisionIndex].decisions}
             handleDecision={handleDecision}
           />
           <UserDecision
+            key={decisionIndex}
             decision={decisionText}
-            decisions={['store', 'search', 'sort']}
+            decisions={userTree[decisionIndex].decisions.words}
           />
         </h2>
       </section>
