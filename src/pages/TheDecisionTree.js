@@ -5,11 +5,13 @@ import UserDecision from '../components/Typer/UserDecision';
 function TheDecisionTree() {
   const [decisionText, setDecisionText] = useState('');
   const [decisionIndex, setDecisionIndex] = useState(0);
+  const [usersDecisions, setUserDecisions] = useState([]);
 
   //Gets the button value of the users decision
   const handleDecision = e => {
-    setDecisionText(e.target.innerHTML.trim());
-
+    const decision = e.target.innerHTML.trim()
+    setDecisionText(decision);
+    setUserDecisions([...usersDecisions, decision]);
     //Increments the level of the decision tree the user is on
     if (decisionIndex < userTree.length - 1) {
       setDecisionIndex(decisionIndex + 1);
@@ -40,7 +42,7 @@ function TheDecisionTree() {
         sentence: 0,
         words: ['4']
       }
-    }
+    },
   ];
 
   return (
