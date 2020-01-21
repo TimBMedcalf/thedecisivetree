@@ -1,4 +1,5 @@
 import React from 'react';
+import DecisionNode from '../components/TreeCreation/CreateDecisionNode';
 import PropTypes from 'prop-types';
 
 //This page will contain the create node functionality
@@ -18,7 +19,9 @@ function CreateDecisions(props) {
         </div>
       </div>
       <div className='row'>
-        <div className='col-md-6 offset-md-3 col-10 tree-container'></div>
+        <div className='col-md-6 offset-md-3 col-10 tree-container'>
+          <DecisionNode />
+        </div>
       </div>
     </div>
   );
