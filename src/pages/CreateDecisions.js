@@ -1,5 +1,5 @@
-import React from 'react';
-import DecisionNode from '../components/TreeCreation/CreateDecisionNode';
+import React, { useState } from 'react';
+import CreateDecisionNode from '../components/TreeCreation/CreateDecisionNode';
 import PropTypes from 'prop-types';
 
 //This page will contain the create node functionality
@@ -10,7 +10,37 @@ import PropTypes from 'prop-types';
 //If user repeats this until the nodes are filled out and set as completed
 //if any words are not linked then user will not be able enter the next level
 
+const userTree = [
+  {
+    sentences: [
+      'Hello and welcome to my decision tree!',
+      'Are you looking to store, search or sort data?'
+    ],
+    decisions: {
+      sentence: 1,
+      words: ['store', 'search', 'sort'],
+      pointers: [1, 2, 1]
+    }
+  },
+  {
+    sentences: ['This is test number 3!'],
+    decisions: {
+      sentence: 0,
+      words: ['test', 'this']
+    }
+  },
+  {
+    sentences: ['This is test number 4'],
+    decisions: {
+      sentence: 0,
+      words: ['4']
+    }
+  }
+];
+
 function CreateDecisions(props) {
+  const [decisionTree, setDecisionTree] = useState(userTree);
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -20,7 +50,7 @@ function CreateDecisions(props) {
       </div>
       <div className='row'>
         <div className='col-md-6 offset-md-3 col-10 tree-container'>
-          <DecisionNode />
+          <CreateDecisionNode decisionTree={decisionTree} />
         </div>
       </div>
     </div>

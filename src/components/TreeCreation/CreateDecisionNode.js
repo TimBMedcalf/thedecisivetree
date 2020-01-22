@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import DecisionNode from './DecisionNode';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-function CreateDecisionNode() {
+function CreateDecisionNode({ decisionTree }) {
   const [sentence, setSentence] = useState('');
+  const [potentialDecisions, setPotentialDecisions] = useState([]);
+  const [decisionNodes, setDecisionNodes] = useState([]);
+  const [previousNode, setPreviousNode] = useState(0);
   const [decisions, setDecisions] = useState([]);
 
   /**
@@ -22,8 +24,34 @@ function CreateDecisionNode() {
         label: word
       };
     });
-    setDecisions(words);
+    setPotentialDecisions(words);
   };
+
+  const handleDecisions = e => setDecisions(e);
+
+  const handleDecisionTree = () => {
+    if (decisionTree) {
+      const nodes = decisionTree.map((node, i) => ({
+        value: i,
+        label: `${i}: ${node.sentences[0]}`
+      }));
+      console.log(`called: ${decisionTree}`);
+      // const otherNodeWords = decisionTree.decisions.words.map(word => ({
+      //   value: word,
+      //   label: word
+      // }));
+
+      setDecisionNodes(nodes);
+    }
+  };
+
+  const handlePreviousNode = e => {
+    setPreviousNode(parseInt(e));
+  };
+
+  useEffect(() => {
+    handleDecisionTree();
+  }, [decisionTree]);
 
   return (
     <div className='create-decision-node'>
@@ -34,21 +62,35 @@ function CreateDecisionNode() {
           value={sentence}
           onChange={handleSentence}
         />
-      </div>
-
-      <div className='decisions'>
         <Select
           isMulti
           name='decisions'
-          options={decisions}
-          placeholder='Select your decision words'
+          options={potentialDecisions}
+          onChange={handleDecisions}
+          placeholder='Select your decision words...'
           className='basic-multi-select'
           classNamePrefix='select'
         />
       </div>
 
-      <div className='decision-nodes'>
-        <DecisionNode />
+      <div className='decisions'>
+        <Select
+          name='decisions'
+          options={decisionNodes}
+          onChange={handlePreviousNode}
+          placeholder='Select a node to link from...'
+          className='basic-multi-select'
+          classNamePrefix='select'
+        />
+        <Select
+          isMulti
+          name='decisions'
+          options={potentialDecisions}
+          onChange={handleDecisions}
+          placeholder='Select what word links to here...'
+          className='basic-multi-select'
+          classNamePrefix='select'
+        />
       </div>
     </div>
   );
