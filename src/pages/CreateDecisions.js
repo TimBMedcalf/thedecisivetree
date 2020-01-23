@@ -12,27 +12,22 @@ import PropTypes from 'prop-types';
 
 const userTree = [
   {
-    sentences: [
-      'Hello and welcome to my decision tree!',
-      'Are you looking to store, search or sort data?'
-    ],
+    sentence: 'Hello and welcome to my decision tree!',
     decisions: {
-      sentence: 1,
-      words: ['store', 'search', 'sort'],
+      words: ['welcome', 'decision', 'tree!'],
       pointers: [1, 2, 1]
     }
   },
   {
-    sentences: ['This is test number 3!'],
+    sentence: 'This is test number 3!',
     decisions: {
-      sentence: 0,
-      words: ['test', 'this']
+      words: ['test', 'this'],
+      pointers: [2, 0]
     }
   },
   {
-    sentences: ['This is test number 4'],
-    decisions: {
-      sentence: 0,
+    sentence: 'This is test number 4',
+    decision: {
       words: ['4']
     }
   }
@@ -44,7 +39,7 @@ function CreateDecisions(props) {
   return (
     <div className='container-fluid'>
       <div className='row'>
-        <div className='col-md-6 col-12'>
+        <div className='col-md-6 offset-md-3 col-10 text-center'>
           <h2>Create your tree</h2>
         </div>
       </div>
