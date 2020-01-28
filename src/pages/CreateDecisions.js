@@ -21,8 +21,8 @@ const userTree = [
   {
     sentence: 'This is test number 3!',
     decisions: {
-      words: ['test', 'this'],
-      pointers: [2, 0]
+      words: ['test', 'this', 'is'],
+      pointers: [2, 0, 1]
     }
   },
   {

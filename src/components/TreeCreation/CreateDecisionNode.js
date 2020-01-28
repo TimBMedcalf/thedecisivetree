@@ -12,9 +12,10 @@ function CreateDecisionNode({ decisionTree }) {
   const [currentNode, setCurrentNode] = useState({});
 
   //Link up nodes
-  const [previousNode, setPreviousNode] = useState(0);
-  const [previousNodeWords, setPreviousNodeWords] = useState([]);
-  const [linkFromWords, setLinkFromWords] = useState([]);
+  const [previousNode, setPreviousNode] = useState(0); // Select which node to get the words from
+  const [previousNodeWords, setPreviousNodeWords] = useState([]); // gets the previous words from a node
+  const [linkFromWords, setLinkFromWords] = useState([]); // select which words from a specific nodes to link from
+  const [linksFrom, setLinksFrom] = useState(1); //holds how many links from nodes the user wants
 
   /**
    * Takes in the sentence and splits it into words then returns the words as an array of
@@ -55,6 +56,13 @@ function CreateDecisionNode({ decisionTree }) {
     const nodeIndex = parseInt(e.value);
     setPreviousNode(nodeIndex);
 
+    // Disable the node that has been selected to stop multi links from nodes
+    setDecisionTreeNodes(() => {
+      let tempDecisionTree = decisionTreeNodes;
+      tempDecisionTree[nodeIndex].isDisabled = true;
+      return tempDecisionTree;
+    });
+
     //Set the options for the user to choose the words to link from
     if (typeof decisionTree[nodeIndex].decisions.words !== undefined) {
       setPreviousNodeWords(
@@ -66,6 +74,36 @@ function CreateDecisionNode({ decisionTree }) {
         })
       );
     }
+  };
+
+  const nodeLinks = () => {
+    let nodeLinks = [];
+    for (let i = 0; i < linksFrom; i++) {
+      nodeLinks.push(
+        <div className='link-node' key={`create-links-${i}`}>
+          <Select
+            key={`link-node-${i}`}
+            name='decisions'
+            options={decisionTreeNodes}
+            onChange={handlePreviousNode}
+            placeholder='Select a node to link from...'
+            className='basic-multi-select'
+            classNamePrefix='select'
+          />
+          <Select
+            key={`link-words-${i}`}
+            isMulti
+            name='decisions'
+            options={previousNodeWords}
+            onChange={handlePreviousWords}
+            placeholder='Select what word links to here...'
+            className='basic-multi-select'
+            classNamePrefix='select'
+          />
+        </div>
+      );
+    }
+    return nodeLinks;
   };
 
   //Creates decision node to appened to the tree
@@ -105,27 +143,19 @@ function CreateDecisionNode({ decisionTree }) {
 
       <div className='decisions'>
         <h3>Link your node:</h3>
-        <Select
-          name='decisions'
-          options={decisionTreeNodes}
-          onChange={handlePreviousNode}
-          placeholder='Select a node to link from...'
-          className='basic-multi-select'
-          classNamePrefix='select'
-        />
-        <Select
-          isMulti
-          name='decisions'
-          options={previousNodeWords}
-          onChange={handlePreviousWords}
-          placeholder='Select what word links to here...'
-          className='basic-multi-select'
-          classNamePrefix='select'
-        />
+        {nodeLinks()}
       </div>
-      <button onClick={createNode} className='btn btn-primary'>
-        Create your decision
-      </button>
+      <div className='node-user-controls'>
+        <button onClick={createNode} className='btn btn-primary create-node'>
+          Create your decision
+        </button>
+        <button
+          onClick={() => setLinksFrom(linksFrom + 1)}
+          className='btn btn-primary add-link-node'
+        >
+          Add Node
+        </button>
+      </div>
     </div>
   );
 }
