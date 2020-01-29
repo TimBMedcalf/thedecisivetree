@@ -27,7 +27,7 @@ const userTree = [
   },
   {
     sentence: 'This is test number 4',
-    decision: {
+    decisions: {
       words: ['4']
     }
   }
