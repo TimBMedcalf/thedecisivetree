@@ -11,7 +11,11 @@ function LinkNode({ decisionTreeNodes, decisionTree, setDecisionTreeNodes }) {
   const handlePreviousWords = e => {
     const words = e.map(word => word.value);
     setLinkFromWords(words);
-    decisionTree[previousNode].decisions.pointers = words;
+    // decisionTree[previousNode].decisions.filter((decision, i) => {
+    //   if(decision.word === words[i]) {
+    //     return decision.linkTo =
+    //   }
+    // })
   };
 
   const handlePreviousNode = e => {

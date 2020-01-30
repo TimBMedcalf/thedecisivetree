@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import LinkNode from './LinkNode';
 
-function CreateDecisionNode({ decisionTree }) {
+function CreateDecisionNode({ decisionTree, setDecisionTree }) {
   //Decision Tree
   const [decisionTreeNodes, setDecisionTreeNodes] = useState([]);
 
@@ -10,10 +10,9 @@ function CreateDecisionNode({ decisionTree }) {
   const [currentNodeSentence, setCurrentNodeSentence] = useState('');
   const [potentialNodeDecisions, setPotentialNodeDecisions] = useState([]);
   const [currentNodeDecisions, setCurrentNodeDecisions] = useState([]);
-  const [currentNode, setCurrentNode] = useState({});
 
   //Holds how many links have been added to the node
-  const [linksFrom, setLinksFrom] = useState(1); //holds how many links from nodes the user wants
+  const [linksFrom, setLinksFrom] = useState(0); //holds how many links from nodes the user wants
 
   /**
    * Takes in the sentence and splits it into words then returns the words as an array of
@@ -41,7 +40,6 @@ function CreateDecisionNode({ decisionTree }) {
         value: i,
         label: `${i}: ${node.sentence}`
       }));
-
       setDecisionTreeNodes(nodes);
     }
   };
@@ -69,12 +67,17 @@ function CreateDecisionNode({ decisionTree }) {
 
   //Creates decision node to appened to the tree
   const createNode = () => {
-    setCurrentNode({
+    let node = {
       sentence: currentNodeSentence,
-      decisions: {
-        words: currentNodeDecisions
-      }
-    });
+      decisions: [
+        currentNodeDecisions.map(decisionWord => ({ word: decisionWord }))
+      ]
+    };
+    if (decisionTree[0] === {}) {
+      setDecisionTree([node]);
+    } else {
+      setDecisionTree([...decisionTreeNodes, node]);
+    }
   };
 
   const createLinkPointers = () => {};
@@ -104,19 +107,21 @@ function CreateDecisionNode({ decisionTree }) {
       </div>
 
       <div className='decisions'>
-        <h3>Link your node:</h3>
+        {linksFrom > 0 && <h3>Link your node:</h3>}
         {nodeLinks()}
       </div>
       <div className='node-user-controls'>
         <button onClick={createNode} className='btn btn-primary create-node'>
           Create your decision
         </button>
-        <button
-          onClick={() => setLinksFrom(linksFrom + 1)}
-          className='btn btn-primary add-link-node'
-        >
-          Add Link Node
-        </button>
+        {linksFrom > 0 && (
+          <button
+            onClick={() => setLinksFrom(linksFrom + 1)}
+            className='btn btn-primary add-link-node'
+          >
+            Add Link Node
+          </button>
+        )}
       </div>
     </div>
   );
