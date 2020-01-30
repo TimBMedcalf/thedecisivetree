@@ -13,23 +13,23 @@ import PropTypes from 'prop-types';
 const userTree = [
   {
     sentence: 'Hello and welcome to my decision tree!',
-    decisions: {
-      words: ['welcome', 'decision', 'tree!'],
-      pointers: [1, 2, 1]
-    }
+    decisions: [
+      { word: 'welcome', linkTo: 1 },
+      { word: 'decision', linkto: 2 },
+      { word: 'tree', linkTo: 1 }
+    ]
   },
   {
     sentence: 'This is test number 3!',
-    decisions: {
-      words: ['test', 'this', 'is'],
-      pointers: [2, 0, 1]
-    }
+    decisions: [
+      { word: 'test', linkTo: 2 },
+      { word: 'this', linkTo: 0 },
+      { word: 'link', linkTo: 1 }
+    ]
   },
   {
     sentence: 'This is test number 4',
-    decisions: {
-      words: ['4']
-    }
+    decisions: [[{ word: '4' }]]
   }
 ];
 

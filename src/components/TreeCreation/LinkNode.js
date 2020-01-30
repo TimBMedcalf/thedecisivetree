@@ -37,10 +37,10 @@ function LinkNode({ decisionTreeNodes, decisionTree, setDecisionTreeNodes }) {
   const handleSentenceWords = nodeIndex => {
     if (typeof decisionTree[nodeIndex].decisions.words !== undefined) {
       setPreviousNodeWords(
-        decisionTree[nodeIndex].decisions.words.map(word => {
+        decisionTree[nodeIndex].decisions.map(decision => {
           return {
-            value: word,
-            label: word
+            value: decision.word,
+            label: decision.word
           };
         })
       );
