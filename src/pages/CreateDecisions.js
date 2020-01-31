@@ -34,7 +34,7 @@ import PropTypes from 'prop-types';
 // ];
 
 function CreateDecisions(props) {
-  const [decisionTree, setDecisionTree] = useState([{}]);
+  const [decisionTree, setDecisionTree] = useState([]);
 
   return (
     <div className='container-fluid'>
@@ -45,9 +45,15 @@ function CreateDecisions(props) {
       </div>
       <div className='row'>
         <div className='col-md-6 offset-md-3 col-10 tree-container'>
+          <CreateDecisionNode
+            nodeNum={0}
+            decisionTree={decisionTree}
+            setDecisionTree={setDecisionTree}
+          />
           {decisionTree.map((decision, i) => (
             <CreateDecisionNode
               key={i}
+              nodeNum={i + 1}
               decisionTree={decisionTree}
               setDecisionTree={setDecisionTree}
             />

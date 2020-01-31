@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import LinkNode from './LinkNode';
 
-function CreateDecisionNode({ decisionTree, setDecisionTree }) {
+function CreateDecisionNode({ decisionTree, setDecisionTree, nodeNum }) {
   //Decision Tree
   const [decisionTreeNodes, setDecisionTreeNodes] = useState([]);
 
@@ -10,6 +10,7 @@ function CreateDecisionNode({ decisionTree, setDecisionTree }) {
   const [currentNodeSentence, setCurrentNodeSentence] = useState('');
   const [potentialNodeDecisions, setPotentialNodeDecisions] = useState([]);
   const [currentNodeDecisions, setCurrentNodeDecisions] = useState([]);
+  const [currNode, setCurrNode] = useState({});
 
   //Holds how many links have been added to the node
   const [linksFrom, setLinksFrom] = useState(0); //holds how many links from nodes the user wants
@@ -73,14 +74,18 @@ function CreateDecisionNode({ decisionTree, setDecisionTree }) {
         currentNodeDecisions.map(decisionWord => ({ word: decisionWord }))
       ]
     };
-    if (decisionTree[0] === {}) {
-      setDecisionTree([node]);
-    } else {
-      setDecisionTree([...decisionTreeNodes, node]);
-    }
+    setCurrNode(node);
   };
 
-  const createLinkPointers = () => {};
+  const updateDecisionTree = () => {
+    if (decisionTree[nodeNum]) {
+      let tempTree = decisionTree;
+      tempTree[nodeNum] = currNode;
+      setDecisionTree(tempTree);
+    } else {
+      setDecisionTree(...decisionTree, currNode);
+    }
+  };
 
   const handleDecisions = e =>
     setCurrentNodeDecisions(e.map(word => word.value));
@@ -106,15 +111,14 @@ function CreateDecisionNode({ decisionTree, setDecisionTree }) {
         />
       </div>
 
-      <div className='decisions'>
-        {linksFrom > 0 && <h3>Link your node:</h3>}
-        {nodeLinks()}
-      </div>
+      <div className='decisions'>{nodeLinks()}</div>
       <div className='node-user-controls'>
-        <button onClick={createNode} className='btn btn-primary create-node'>
-          Create your decision
-        </button>
-        {linksFrom > 0 && (
+        {nodeNum !== decisionTree.length - 1 && (
+          <button onClick={createNode} className='btn btn-primary create-node'>
+            Create your decision
+          </button>
+        )}
+        {nodeNum !== 0 && (
           <button
             onClick={() => setLinksFrom(linksFrom + 1)}
             className='btn btn-primary add-link-node'
