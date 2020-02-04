@@ -36,6 +36,13 @@ import PropTypes from 'prop-types';
 function CreateDecisions(props) {
   const [decisionTree, setDecisionTree] = useState([]);
 
+  const createDecisionTree = () => {
+    if (decisionTree[decisionTree.length - 1] === []) {
+      //remove last element if it empty
+    }
+    localStorage.setItem('decisionTree', JSON.stringify(decisionTree));
+  };
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -58,6 +65,9 @@ function CreateDecisions(props) {
               setDecisionTree={setDecisionTree}
             />
           ))}
+          <button className='btn btn-primary' onClick={createDecisionTree}>
+            Create your tree
+          </button>
         </div>
       </div>
     </div>

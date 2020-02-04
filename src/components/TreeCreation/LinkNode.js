@@ -1,28 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-function LinkNode({ decisionTreeNodes, decisionTree, setDecisionTreeNodes }) {
+function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
   //Link up nodes
   const [previousNode, setPreviousNode] = useState(0); // Select which node to get the words from
   const [previousNodeWords, setPreviousNodeWords] = useState([]); // gets the previous words from a node
   const [linkFromWords, setLinkFromWords] = useState([]); // select which words from a specific nodes to link from
   const [previousLinkedSetence, setPreviousLinkedSetence] = useState(-1);
+  const [decisionTreeNodes, setDecisionTreeNodes] = useState([]);
 
+  /**
+   *
+   * @param {event} e takes in the decision words from the selected node then points the previous node to the node your are selecting it on
+   */
   const handlePreviousWords = e => {
     const words = e.map(word => word.value);
     setLinkFromWords(words);
-    // decisionTree[previousNode].decisions.filter((decision, i) => {
-    //   if(decision.word === words[i]) {
-    //     return decision.linkTo =
-    //   }
-    // })
+    let tempTree = decisionTree;
+
+    tempTree[nodeNum] = decisionTree[previousNode].decisions.filter(
+      (decision, i) => {
+        if (decision.word === words[i]) {
+          console.log(words[i]);
+
+          decision.linkTo = nodeNum;
+        }
+      }
+    );
+
+    setDecisionTree([...tempTree]);
   };
+
+  // Gets the tree sentences and formats them to choose from the select
+  const formatDecisionTreeSentences = () => {
+    if (decisionTree) {
+      const nodes = decisionTree.map((decision, i) => ({
+        value: i,
+        label: `${i}: ${decision.sentence}`
+      }));
+      setDecisionTreeNodes(nodes);
+    }
+  };
+
+  useEffect(() => {
+    formatDecisionTreeSentences();
+  }, [decisionTree]);
 
   const handlePreviousNode = e => {
     const nodeIndex = parseInt(e.value);
 
     handleCurrentDisabledSentence(nodeIndex);
     setPreviousNode(nodeIndex);
+    handleSentenceWords(nodeIndex);
 
     // Disable the node that has been selected to stop multi links from nodes, this bubbles up state
     setDecisionTreeNodes(() => {
@@ -30,8 +59,6 @@ function LinkNode({ decisionTreeNodes, decisionTree, setDecisionTreeNodes }) {
       tempDecisionTree[nodeIndex].isDisabled = true;
       return tempDecisionTree;
     });
-
-    handleSentenceWords(nodeIndex);
   };
 
   /**
@@ -39,7 +66,7 @@ function LinkNode({ decisionTreeNodes, decisionTree, setDecisionTreeNodes }) {
    * @param {Number} nodeIndex
    */
   const handleSentenceWords = nodeIndex => {
-    if (typeof decisionTree[nodeIndex].decisions.words !== undefined) {
+    if (typeof decisionTree[nodeIndex].decisions !== 'undefined') {
       setPreviousNodeWords(
         decisionTree[nodeIndex].decisions.map(decision => {
           return {

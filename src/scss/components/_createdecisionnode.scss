@@ -18,6 +18,16 @@
   color: #000 !important;
 }
 
+.create-decision-node .link-buttons {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+
 .create-decision-node .decisions h3 {
   margin-top: 1em;
 }
@@ -27,14 +37,4 @@
   &:first-child {
     margin: 1em 0 2em 0;
   }
-}
-
-.create-decision-node .node-user-controls {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1em;
 }

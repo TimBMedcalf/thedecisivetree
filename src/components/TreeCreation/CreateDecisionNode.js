@@ -39,7 +39,14 @@ function CreateDecisionNode({ decisionTree, setDecisionTree, nodeNum }) {
   const nodeLinks = () => {
     let nodeLinks = [];
     for (let i = 0; i < linksFrom; i++) {
-      nodeLinks.push(<LinkNode key={i} decisionTree={decisionTree} />);
+      nodeLinks.push(
+        <LinkNode
+          key={i}
+          decisionTree={decisionTree}
+          nodeNum={nodeNum}
+          setDecisionTree={setDecisionTree}
+        />
+      );
     }
     return nodeLinks;
   };
@@ -77,12 +84,20 @@ function CreateDecisionNode({ decisionTree, setDecisionTree, nodeNum }) {
       <div className='decisions'>{nodeLinks()}</div>
       <div className='node-user-controls'>
         {nodeNum !== 0 && (
-          <button
-            onClick={() => setLinksFrom(linksFrom + 1)}
-            className='btn btn-primary add-link-node'
-          >
-            Add Link Node
-          </button>
+          <div className='link-buttons'>
+            <button
+              onClick={() => linksFrom > 0 && setLinksFrom(linksFrom - 1)}
+              className='btn btn-danger add-link-node'
+            >
+              Remove Link
+            </button>
+            <button
+              onClick={() => setLinksFrom(linksFrom + 1)}
+              className='btn btn-primary add-link-node'
+            >
+              Add Link Node
+            </button>
+          </div>
         )}
       </div>
     </div>
