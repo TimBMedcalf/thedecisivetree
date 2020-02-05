@@ -48,14 +48,10 @@ function Typest(props) {
   useInterval(handleTyping, typingSpeed);
 
   const searchForWords = () => {
-    if (typeof props.decisions.sentence !== 'number') return;
-
-    //Provided from user to tell which sentence to add the buttons to
-    const i = props.decisions.sentence;
-    const wordsToBeFound = props.decisions.words;
+    const wordsToBeFound = props.decisions.map(decision => decision.word);
 
     //Split the sentence into words
-    let decisionWords = props.sentences[i].split(' ');
+    let decisionWords = props.sentences[0].split(' ');
 
     //Create a table where each key is the word, if too memory usage too high swap to hashes
     let words = {};
@@ -97,7 +93,7 @@ function Typest(props) {
 
 Typest.propTypes = {
   sentences: PropTypes.array.isRequired,
-  decisions: PropTypes.object
+  decisions: PropTypes.array.isRequired
 };
 
 export default Typest;
