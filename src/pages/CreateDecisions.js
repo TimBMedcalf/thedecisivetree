@@ -36,11 +36,17 @@ import PropTypes from 'prop-types';
 function CreateDecisions(props) {
   const [decisionTree, setDecisionTree] = useState([]);
 
+  //Sets the decision into local storage, this will be replaced by setting it into mongodb
   const createDecisionTree = () => {
-    if (decisionTree[decisionTree.length - 1] === []) {
+    if (decisionTree[decisionTree.length - 1].length === 0) {
       //remove last element if it empty
+      let tempTree = decisionTree;
+      tempTree.pop();
+      setDecisionTree(tempTree);
+      localStorage.setItem('decisionTree', JSON.stringify(tempTree));
+    } else {
+      localStorage.setItem('decisionTree', JSON.stringify(decisionTree));
     }
-    localStorage.setItem('decisionTree', JSON.stringify(decisionTree));
   };
 
   return (
