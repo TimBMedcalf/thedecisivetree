@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import Typest from "../components/Typer/Typest";
-import UserDecision from "../components/Typer/UserDecision";
+import React, { useState, useEffect } from 'react';
+import Typest from '../components/Typer/Typest';
+import UserDecision from '../components/Typer/UserDecision';
 
 function TheDecisionTree() {
-  const [decisionText, setDecisionText] = useState("");
+  const [decisionText, setDecisionText] = useState('');
+  const [decisionTree, setDecisionTree] = useState([]);
   const [decisionIndex, setDecisionIndex] = useState(0);
   const [usersDecisions, setUserDecisions] = useState([]);
   const [complete, setComplete] = useState(false);
@@ -15,70 +16,66 @@ function TheDecisionTree() {
     setUserDecisions([...usersDecisions, decision]);
 
     //Increments the level of the decision tree the user is on
-    if (userTree[decisionIndex].decisions.pointers) {
+
+    if (decisionTree[decisionIndex].decisions) {
       let nextDecision = findNextDecision(decision);
       if (nextDecision !== null) {
         setDecisionIndex(nextDecision);
       } else {
-        setDecisionIndex(decisionIndex + 1);
+        setComplete(true);
       }
-    } else {
-      setComplete(true);
     }
   };
 
-  const findNextDecision = decision => {
+  const findNextDecision = decisionWord => {
     //Get the index of the word then use that index to find where the next node is with the pointers
-    let nextDecision = userTree[decisionIndex].decisions.words.indexOf(
-      decision
+    let nextDecision = decisionTree[decisionIndex].decisions.filter(
+      decision => decisionWord === decision.word && decision.linkTo
     );
-    if (nextDecision === -1) return null;
-    return userTree[decisionIndex].decisions.pointers[nextDecision];
+    if (nextDecision.length === 0) return null;
+    return nextDecision[0];
   };
 
-  const userTree = [
-    {
-      sentences: [
-        "Hello and welcome to my decision tree!",
-        "Are you looking to store, search or sort data?"
-      ],
-      decisions: {
-        sentence: 1,
-        words: ["store", "search", "sort"],
-        pointers: [1, 2, 1]
-      }
-    },
-    {
-      sentences: ["This is test number 3!"],
-      decisions: {
-        sentence: 0,
-        words: ["test", "this"]
-      }
-    },
-    {
-      sentences: ["This is test number 4"],
-      decisions: {
-        sentence: 0,
-        words: ["4"]
-      }
+  useEffect(() => {
+    getDecisionTree
+      .then(tree => {
+        setDecisionTree(tree);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
+  const getDecisionTree = new Promise((resolve, rejecet) => {
+    let tempTree = localStorage.getItem('decisionTree');
+    tempTree = JSON.parse(tempTree);
+
+    if (tempTree.length !== 0) {
+      resolve(tempTree);
+    } else {
+      rejecet('No decision tree found');
     }
-  ];
+  });
 
   return (
-    <div className="the-decision-tree">
-      <section className="typewritter">
-        <h2 className="typewriter-text">
-          <Typest
-            key={`typer: ${decisionIndex}`}
-            sentences={userTree[decisionIndex].sentences}
-            decisions={userTree[decisionIndex].decisions}
-            handleDecision={handleDecision}
-          />
-          <UserDecision
-            key={decisionIndex}
-            decision={decisionText}
-            decisions={userTree[decisionIndex].decisions.words}
-          />
+    <div className='the-decision-tree'>
+      <section className='typewritter'>
+        <h2 className='typewriter-text'>
+          {decisionTree.length > 0 && (
+            <div>
+              <Typest
+                key={`typer: ${decisionIndex}`}
+                sentences={[decisionTree[decisionIndex].sentence]}
+                decisions={decisionTree[decisionIndex].decisions}
+                handleDecision={handleDecision}
+              />
+              <UserDecision
+                key={decisionIndex}
+                decision={decisionText}
+                decisions={decisionTree[decisionIndex].decisions.word}
+              />
+            </div>
+          )}
         </h2>
       </section>
     </div>
