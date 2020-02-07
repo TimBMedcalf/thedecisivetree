@@ -6,7 +6,6 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
   const [previousNode, setPreviousNode] = useState(0); // Select which node to get the words from
   const [previousNodeWords, setPreviousNodeWords] = useState([]); // gets the previous words from a node
   const [linkFromWords, setLinkFromWords] = useState([]); // select which words from a specific nodes to link from
-  const [previousLinkedSetence, setPreviousLinkedSetence] = useState(-1);
   const [decisionTreeNodes, setDecisionTreeNodes] = useState([]);
 
   /**
@@ -14,19 +13,31 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
    * @param {event} e takes in the decision words from the selected node then points the previous node to the node your are selecting it on
    */
   const handlePreviousWords = e => {
-    const words = e.map(word => word.value);
-    setLinkFromWords(words);
     let tempTree = decisionTree;
 
-    tempTree[nodeNum] = decisionTree[previousNode].decisions.filter(
-      (decision, i) => {
-        if (decision.word === words[i]) {
-          console.log(words[i]);
+    if (e !== null) {
+      const words = e.map(word => word.value);
+      setLinkFromWords(words);
 
-          decision.linkTo = nodeNum;
+      words.forEach((word, i) => {
+        tempTree[previousNode].decisions.forEach((decision, j) => {
+          if (word === decision.word) {
+            tempTree[previousNode].decisions[j] = {
+              word: word,
+              linkTo: nodeNum
+            };
+            return;
+          }
+        });
+      });
+    } else {
+      //If the user has removed the nodes
+      tempTree[previousNode].decisions.forEach((decision, i) => {
+        if (decision.linkTo === nodeNum) {
+          delete tempTree[previousNode].decisions[i].linkTo;
         }
-      }
-    );
+      });
+    }
 
     setDecisionTree([...tempTree]);
   };
@@ -49,7 +60,6 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
   const handlePreviousNode = e => {
     const nodeIndex = parseInt(e.value);
 
-    handleCurrentDisabledSentence(nodeIndex);
     setPreviousNode(nodeIndex);
     handleSentenceWords(nodeIndex);
 
@@ -71,26 +81,12 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
         decisionTree[nodeIndex].decisions.map(decision => {
           return {
             value: decision.word,
-            label: decision.word
+            label: decision.word,
+            isDisabled: decision.hasOwnProperty('linkTo') && true
           };
         })
       );
     }
-  };
-
-  /**
-   * Enables the previously selected sentence
-   * @param {Number} nodeIndex
-   */
-  const handleCurrentDisabledSentence = nodeIndex => {
-    if (previousLinkedSetence !== -1) {
-      setDecisionTreeNodes(() => {
-        let tempDecisionTree = decisionTreeNodes;
-        tempDecisionTree[previousLinkedSetence].isDisabled = false;
-        return tempDecisionTree;
-      });
-    }
-    setPreviousLinkedSetence(nodeIndex);
   };
 
   return (
