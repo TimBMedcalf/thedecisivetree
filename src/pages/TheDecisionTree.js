@@ -33,7 +33,7 @@ function TheDecisionTree() {
       decision => decisionWord === decision.word && decision.linkTo
     );
     if (nextDecision.length === 0) return null;
-    return nextDecision[0];
+    return nextDecision[0].linkTo;
   };
 
   useEffect(() => {
@@ -72,7 +72,7 @@ function TheDecisionTree() {
               <UserDecision
                 key={decisionIndex}
                 decision={decisionText}
-                decisions={decisionTree[decisionIndex].decisions.word}
+                decisions={decisionTree[decisionIndex].decisions}
               />
             </div>
           )}
