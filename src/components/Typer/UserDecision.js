@@ -13,13 +13,12 @@ function UserDecision({ decision, decisions }) {
 
   const handleDecisionText = e => {
     //Filters words out that dont contain what the user input
-    const searchedDesicions = decisions.filter(word =>
-      word.toLowerCase().includes(e.target.value.toLowerCase())
+    const searchedDesicions = decisions.filter(decision =>
+      decision.word.toLowerCase().includes(e.target.value.toLowerCase())
     );
-
     //Used for clearing the autocomplete
     if (searchedDesicions.length) {
-      setFoundDecision(searchedDesicions[0]);
+      setFoundDecision(searchedDesicions[0].word);
     } else {
       setFoundDecision('');
     }
