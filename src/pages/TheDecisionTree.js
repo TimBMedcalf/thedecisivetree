@@ -61,7 +61,7 @@ function TheDecisionTree() {
     <div className='the-decision-tree'>
       <section className='typewritter'>
         <h2 className='typewriter-text'>
-          {decisionTree.length > 0 && (
+          {decisionTree.length > 0 && !complete && (
             <div>
               <Typest
                 key={`typer: ${decisionIndex}`}
@@ -74,6 +74,19 @@ function TheDecisionTree() {
                 decision={decisionText}
                 decisions={decisionTree[decisionIndex].decisions}
               />
+            </div>
+          )}
+          {complete && (
+            <div className='completion'>
+              <button
+                onClick={() => {
+                  setDecisionIndex(0);
+                  setComplete(false);
+                }}
+                className='btn btn-primary'
+              >
+                Restart
+              </button>
             </div>
           )}
         </h2>
