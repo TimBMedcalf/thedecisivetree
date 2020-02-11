@@ -19,6 +19,14 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
       const words = e.map(word => word.value);
       setLinkFromWords(words);
 
+      // Clears the nodes that are currently linked with that node so they can be readded, this is because a new array is passed as args rather than diff
+      tempTree[previousNode].decisions.map(decision => {
+        if (decision.linkTo === nodeNum) {
+          delete decision.linkTo;
+        }
+        return decision;
+      });
+
       words.forEach((word, i) => {
         tempTree[previousNode].decisions.forEach((decision, j) => {
           if (word === decision.word) {
@@ -63,7 +71,7 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
     setPreviousNode(nodeIndex);
     handleSentenceWords(nodeIndex);
 
-    // Disable the node that has been selected to stop multi links from nodes, this bubbles up state
+    // Disable the node that has been selected to stop multi links from nodes
     setDecisionTreeNodes(() => {
       let tempDecisionTree = decisionTreeNodes;
       tempDecisionTree[nodeIndex].isDisabled = true;
