@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CreateDecisionNode from '../components/TreeCreation/CreateDecisionNode';
-import PropTypes from 'prop-types';
+import ShareModal from '../components/TreeCreation/ShareModal';
 
 //This page will contain the create node functionality
 //A user will type in the node sentence and decisions they want to use
@@ -10,31 +10,9 @@ import PropTypes from 'prop-types';
 //If user repeats this until the nodes are filled out and set as completed
 //if any words are not linked then user will not be able enter the next level
 
-// const userTree = [
-//   {
-//     sentence: 'Hello and welcome to my decision tree!',
-//     decisions: [
-//       { word: 'welcome', linkTo: 1 },
-//       { word: 'decision', linkto: 2 },
-//       { word: 'tree', linkTo: 1 }
-//     ]
-//   },
-//   {
-//     sentence: 'This is test number 3!',
-//     decisions: [
-//       { word: 'test', linkTo: 2 },
-//       { word: 'this', linkTo: 0 },
-//       { word: 'link', linkTo: 1 }
-//     ]
-//   },
-//   {
-//     sentence: 'This is test number 4',
-//     decisions: [[{ word: '4' }]]
-//   }
-// ];
-
 function CreateDecisions(props) {
   const [decisionTree, setDecisionTree] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   //Sets the decision into local storage, this will be replaced by setting it into mongodb
   const createDecisionTree = () => {
@@ -71,9 +49,20 @@ function CreateDecisions(props) {
               setDecisionTree={setDecisionTree}
             />
           ))}
-          <button className='btn btn-primary' onClick={createDecisionTree}>
-            Create your tree
-          </button>
+          {decisionTree.length > 0 && (
+            <div>
+              <button
+                className='btn btn-primary'
+                onClick={() => {
+                  createDecisionTree();
+                  setOpenModal(true);
+                }}
+              >
+                Create your tree
+              </button>
+              <ShareModal isOpen={openModal} />
+            </div>
+          )}
         </div>
       </div>
     </div>
