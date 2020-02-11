@@ -48,6 +48,11 @@ function Typest(props) {
   useInterval(handleTyping, typingSpeed);
 
   const searchForWords = () => {
+    if (typeof props.decisions === 'undefined') {
+      props.setComplete(true);
+      return text;
+    }
+
     const wordsToBeFound = props.decisions.map(decision => decision.word);
 
     //Split the sentence into words
@@ -92,8 +97,7 @@ function Typest(props) {
 }
 
 Typest.propTypes = {
-  sentences: PropTypes.array.isRequired,
-  decisions: PropTypes.array.isRequired
+  sentences: PropTypes.array.isRequired
 };
 
 export default Typest;

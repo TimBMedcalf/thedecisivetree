@@ -17,7 +17,7 @@ function TheDecisionTree() {
 
     //Increments the level of the decision tree the user is on
 
-    if (decisionTree[decisionIndex].decisions) {
+    if (decisionTree[decisionIndex].decisions.length) {
       let nextDecision = findNextDecision(decision);
       if (nextDecision !== null) {
         setDecisionIndex(nextDecision);
@@ -61,19 +61,22 @@ function TheDecisionTree() {
     <div className='the-decision-tree'>
       <section className='typewritter'>
         <h2 className='typewriter-text'>
-          {decisionTree.length > 0 && !complete && (
+          {decisionTree.length > 0 && (
             <div>
               <Typest
                 key={`typer: ${decisionIndex}`}
                 sentences={[decisionTree[decisionIndex].sentence]}
                 decisions={decisionTree[decisionIndex].decisions}
                 handleDecision={handleDecision}
+                setComplete={setComplete}
               />
-              <UserDecision
-                key={decisionIndex}
-                decision={decisionText}
-                decisions={decisionTree[decisionIndex].decisions}
-              />
+              {!complete && (
+                <UserDecision
+                  key={decisionIndex}
+                  decision={decisionText}
+                  decisions={decisionTree[decisionIndex].decisions}
+                />
+              )}
             </div>
           )}
           {complete && (
