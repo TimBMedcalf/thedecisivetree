@@ -29,6 +29,7 @@ function CreateDecisions(props) {
 
   return (
     <div className='container-fluid'>
+      {openModal && <ShareModal setIsOpen={setOpenModal} />}
       <div className='row'>
         <div className='col-md-6 offset-md-3 col-10 text-center'>
           <h2>Create your tree</h2>
@@ -60,7 +61,6 @@ function CreateDecisions(props) {
               >
                 Create your tree
               </button>
-              <ShareModal isOpen={openModal} />
             </div>
           )}
         </div>

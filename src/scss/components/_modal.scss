@@ -1,0 +1,27 @@
+.share-modal {
+  position: absolute;
+  z-index: 5;
+  border: 1px solid $primary;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  padding: 5em 2em;
+  transform: translate(-50%, -50%);
+  background-color: $body-bg;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.share-modal input {
+  margin-top: 1em;
+  width: 50%;
+  padding: 0.25em;
+}
+
+.user-decision-buttons {
+  margin: 2em auto;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+}
