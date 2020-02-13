@@ -17,15 +17,31 @@ function CreateDecisionNode({ decisionTree, setDecisionTree, nodeNum }) {
     let sentence = e.target.value;
 
     if (!sentence === '') return;
+    let potentialDecisions = [];
 
-    setPotentialNodeDecisions(
-      sentence.split(' ').map(word => {
-        return {
-          value: word,
-          label: word
-        };
-      })
-    );
+    sentence.split(' ').forEach(newWord => {
+      let wordCount = 0;
+      potentialDecisions.forEach(decision => {
+        if (decision.label === newWord) {
+          wordCount++;
+        }
+      });
+
+      if (wordCount === 0) {
+        potentialDecisions.push({
+          value: newWord,
+          label: newWord
+        });
+      } else {
+        potentialDecisions.push({
+          value: `${newWord}[${wordCount}]`,
+          label: newWord
+        });
+      }
+    });
+
+    setPotentialNodeDecisions(potentialDecisions);
+
     setCurrNode({ ...currNode, sentence: sentence });
     let temp = decisionTree;
     temp[nodeNum] = {
