@@ -12,28 +12,19 @@ function TheDecisionTree() {
   //Gets the button value of the users decision
   const handleDecision = e => {
     const decision = e.target.innerHTML.trim();
+    const nextNode = e.target.getAttribute('link-to');
     setDecisionText(decision);
     setUserDecisions([...usersDecisions, decision]);
 
     //Increments the level of the decision tree the user is on
 
     if (decisionTree[decisionIndex].decisions.length) {
-      let nextDecision = findNextDecision(decision);
-      if (nextDecision !== null) {
-        setDecisionIndex(nextDecision);
+      if (nextNode !== null) {
+        setDecisionIndex(nextNode);
       } else {
         setComplete(true);
       }
     }
-  };
-
-  const findNextDecision = decisionWord => {
-    //Get the index of the word then use that index to find where the next node is with the pointers
-    let nextDecision = decisionTree[decisionIndex].decisions.filter(
-      decision => decisionWord === decision.word && decision.linkTo
-    );
-    if (nextDecision.length === 0) return null;
-    return nextDecision[0].linkTo;
   };
 
   useEffect(() => {
