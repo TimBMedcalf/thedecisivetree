@@ -53,22 +53,51 @@ function Typest(props) {
       return text;
     }
 
-    const wordsToBeFound = props.decisions.map(decision => decision.word);
+    let sentenceToDisplay = [];
+    let splitSentence = props.sentences[0].split(' ');
 
-    //Split the sentence into words
-    let decisionWords = props.sentences[0].split(' ');
+    splitSentence.forEach((word, i) => {
+      let foundWord = false;
+      let previousWordCounter = 0;
+      let formattedword = '';
+      let linkTo = 0;
 
-    //Create a table where each key is the word, if too memory usage too high swap to hashes
-    let words = {};
-    wordsToBeFound.forEach(word => {
-      words[word] = word;
-    });
+      // Compares the word to the words that have been check to see if it has any duplicates
+      splitSentence.slice(0, i).forEach(previouslyCheckedWords => {
+        if (previouslyCheckedWords === word) {
+          previousWordCounter++;
+        }
+      });
 
-    //If the word matches the table created above then create a button if not create span
-    return decisionWords.map((word, i) => {
-      if (words.hasOwnProperty(word)) {
-        return (
+      // If the word has a duplicate then format the word to how the decisions are formatted to help search for the word in the decisions
+      if (previousWordCounter !== 0) {
+        formattedword = `${word}[${previousWordCounter}]`;
+      }
+
+      // Loop throough and check if either the formatted word or the word matches the current word in the sentence
+      props.decisions.forEach(decision => {
+        if (decision.word === word && formattedword === '') {
+          foundWord = true;
+          linkTo = decision.linkTo;
+        } else if (formattedword === decision.word) {
+          foundWord = true;
+          linkTo = decision.linkTo;
+        }
+      });
+
+      //If there are no matches then push a span onto the array
+      if (foundWord === false) {
+        sentenceToDisplay.push(
+          <span key={`span-${i}`} className='decision-text'>
+            {` ${word} `}
+          </span>
+        );
+      }
+      //If there are matches then push a button onto the array
+      if (foundWord === true) {
+        sentenceToDisplay.push(
           <button
+            link-to={linkTo}
             key={`button-${i}`}
             className='decision-btn'
             onClick={props.handleDecision}
@@ -76,14 +105,11 @@ function Typest(props) {
             {` ${word} `}
           </button>
         );
-      } else {
-        return (
-          <span key={`span-${i}`} className='decision-text'>
-            {` ${word} `}
-          </span>
-        );
       }
     });
+
+    //Finally return the array with the elements
+    return sentenceToDisplay;
   };
 
   return (
