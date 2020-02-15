@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Typest from '../components/Typer/Typest';
-import UserDecision from '../components/Typer/UserDecision';
 
 function TheDecisionTree() {
   const [decisionText, setDecisionText] = useState('');
@@ -61,13 +60,6 @@ function TheDecisionTree() {
                 handleDecision={handleDecision}
                 setComplete={setComplete}
               />
-              {!complete && (
-                <UserDecision
-                  key={decisionIndex}
-                  decision={decisionText}
-                  decisions={decisionTree[decisionIndex].decisions}
-                />
-              )}
             </div>
           )}
           {complete && (
