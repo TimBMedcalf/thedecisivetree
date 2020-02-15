@@ -1,12 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
     <div className='header'>
-      <h2 className='logo'>TheDecisionTree</h2>
-      <button className='hamburger'>
-        <span></span>
-      </button>
+      <Link className='logo' to='/'>
+        <h2>TheDecisionTree</h2>
+      </Link>
+      <Link className='other-links' to='/create'>
+        Create
+      </Link>
     </div>
   );
 }
