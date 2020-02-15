@@ -28,15 +28,15 @@ function CreateDecisions(props) {
   };
 
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid tree-creator-page'>
       {openModal && <ShareModal setIsOpen={setOpenModal} />}
       <div className='row'>
         <div className='col-md-6 offset-md-3 col-10 text-center'>
-          <h2>Create your tree</h2>
+          <h1>Create your tree</h1>
         </div>
       </div>
-      <div className='row'>
-        <div className='col-md-6 offset-md-3 col-10 tree-container'>
+      <div className='row create-decisions'>
+        <div className='col-md-6 offset-md-3 offset-1 col-10 tree-container'>
           <CreateDecisionNode
             nodeNum={0}
             decisionTree={decisionTree}
