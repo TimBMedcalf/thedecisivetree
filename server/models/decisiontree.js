@@ -4,6 +4,10 @@ const decisionTreeSchema = new mongoose.Schema({
   tree: {
     type: String,
     required: true
+  },
+  urlId: {
+    type: String,
+    required: true
   }
 });
 
