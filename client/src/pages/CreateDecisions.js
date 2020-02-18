@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import CreateDecisionNode from '../components/TreeCreation/CreateDecisionNode';
 import ShareModal from '../components/TreeCreation/ShareModal';
 
@@ -16,15 +17,23 @@ function CreateDecisions(props) {
 
   //Sets the decision into local storage, this will be replaced by setting it into mongodb
   const createDecisionTree = () => {
+    let tempTree = [];
+
     if (decisionTree[decisionTree.length - 1].length === 0) {
       //remove last element if it empty
-      let tempTree = decisionTree;
+      tempTree = decisionTree;
       tempTree.pop();
       setDecisionTree(tempTree);
-      localStorage.setItem('decisionTree', JSON.stringify(tempTree));
-    } else {
-      localStorage.setItem('decisionTree', JSON.stringify(decisionTree));
     }
+    const tree = tempTree.length ? tempTree : decisionTree;
+    axios
+      .post('/', tree)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
