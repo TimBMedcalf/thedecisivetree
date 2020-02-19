@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Typest from '../components/Typer/Typest';
 
-function TheDecisionTree() {
+function TheDecisionTree(props) {
   const [decisionText, setDecisionText] = useState('');
   const [decisionTree, setDecisionTree] = useState([]);
   const [decisionIndex, setDecisionIndex] = useState(0);
@@ -36,15 +37,21 @@ function TheDecisionTree() {
       });
   }, []);
 
-  const getDecisionTree = new Promise((resolve, rejecet) => {
-    let tempTree = localStorage.getItem('decisionTree');
-    tempTree = JSON.parse(tempTree);
-
-    if (tempTree.length !== 0) {
-      resolve(tempTree);
-    } else {
-      rejecet('No decision tree found');
-    }
+  const getDecisionTree = new Promise((resolve, reject) => {
+    axios
+      .get(props.location.pathname)
+      .then(res => {
+        if (res.data) {
+          const tree = JSON.parse(res.data);
+          tree.length
+            ? resolve(tree)
+            : reject('Data was found but is not a tree');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        reject('No decision tree found');
+      });
   });
 
   return (

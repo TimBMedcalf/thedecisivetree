@@ -9,12 +9,17 @@ function routes() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path='/'>
-          <TheDecisionTree />
-        </Route>
         <Route exact path='/create'>
           <CreateDecision />
         </Route>
+        <Route exact path='/'>
+          <TheDecisionTree />
+        </Route>
+        <Route
+          exact
+          path='/:id'
+          render={props => <TheDecisionTree {...props} />}
+        ></Route>
       </Switch>
     </Router>
   );
