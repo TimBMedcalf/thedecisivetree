@@ -78,6 +78,4 @@ function CreateDecisions(props) {
   );
 }
 
-CreateDecisions.propTypes = {};
-
 export default CreateDecisions;

@@ -14,12 +14,12 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
    */
   const handlePreviousWords = e => {
     let tempTree = decisionTree;
+    setLinkFromWords(e);
 
     if (e !== null) {
       const words = e.map(word => word.value);
-      setLinkFromWords(words);
 
-      // Clears the nodes that are currently linked with that node so they can be readded, this is because a new array is passed as args rather than diff
+      // Clears the nodes that are currently linked with that node so they can be read, this is because a new array is passed as args rather than diff
       tempTree[previousNode].decisions.map(decision => {
         if (decision.linkTo === nodeNum) {
           delete decision.linkTo;
@@ -38,7 +38,7 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
           }
         });
       });
-    } else {
+    } else if (typeof tempTree[previousNode].decisions !== 'undefined') {
       //If the user has removed the nodes
       tempTree[previousNode].decisions.forEach((decision, i) => {
         if (decision.linkTo === nodeNum) {
@@ -67,16 +67,8 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
 
   const handlePreviousNode = e => {
     const nodeIndex = parseInt(e.value);
-
     setPreviousNode(nodeIndex);
     handleSentenceWords(nodeIndex);
-
-    // Disable the node that has been selected to stop multi links from nodes
-    setDecisionTreeNodes(() => {
-      let tempDecisionTree = decisionTreeNodes;
-      tempDecisionTree[nodeIndex].isDisabled = true;
-      return tempDecisionTree;
-    });
   };
 
   /**
@@ -84,16 +76,22 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
    * @param {Number} nodeIndex
    */
   const handleSentenceWords = nodeIndex => {
+    //Detects the change in selected decision and clears the decision words
+    if (nodeIndex !== previousNode) {
+      handlePreviousWords(null);
+    }
     if (typeof decisionTree[nodeIndex].decisions !== 'undefined') {
       setPreviousNodeWords(
         decisionTree[nodeIndex].decisions.map(decision => {
           return {
             value: decision.word,
             label: decision.word,
-            isDisabled: decision.hasOwnProperty('linkTo') && true
+            isDisabled: decision.hasOwnProperty('linkTo') ? true : false
           };
         })
       );
+    } else {
+      setPreviousNodeWords([]);
     }
   };
 
@@ -110,6 +108,7 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
       <Select
         isMulti
         name='decisions'
+        value={linkFromWords}
         options={previousNodeWords}
         onChange={handlePreviousWords}
         placeholder='Select what word links to here...'
