@@ -14,12 +14,7 @@ function ShareModal({ setIsOpen, url }) {
   return (
     <div className='share-modal'>
       <h2>You can share your tree with this link below!</h2>
-      <input
-        type='text'
-        readOnly
-        value='https://decisiontree.com/12amdJKG'
-        ref={urlText}
-      />
+      <input type='text' readOnly value={url} ref={urlText} />
       <div className='user-decision-buttons'>
         <button onClick={() => setIsOpen(false)} className='btn btn-danger'>
           Close

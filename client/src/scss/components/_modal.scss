@@ -11,6 +11,9 @@
   color: #fff;
   text-align: center;
   vertical-align: middle;
+  @media (max-width: 768px) {
+    width: 95%;
+  }
 }
 
 .share-modal input {
@@ -24,4 +27,11 @@
   width: 50%;
   display: flex;
   justify-content: space-between;
+}
+
+.share-modal input,
+.user-decision-buttons {
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 }
