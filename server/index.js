@@ -51,9 +51,8 @@ app.post('/', async (req, res) => {
     urlId: uniqid()
   });
   try {
-    console.log(decisionTree);
     const newDecisionTree = await decisionTree.save();
-    res.status(201).json(newDecisionTree);
+    res.status(201).json(newDecisionTree.urlId);
   } catch (err) {
     res.sendStatus(400);
   }

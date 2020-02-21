@@ -13,6 +13,7 @@ import ShareModal from '../components/TreeCreation/ShareModal';
 
 function CreateDecisions(props) {
   const [decisionTree, setDecisionTree] = useState([]);
+  const [treeURL, setTreeURL] = useState('');
   const [openModal, setOpenModal] = useState(false);
 
   //Sets the decision into local storage, this will be replaced by setting it into mongodb
@@ -29,7 +30,7 @@ function CreateDecisions(props) {
     axios
       .post('/', tree)
       .then(res => {
-        console.log(res);
+        setTreeURL(`${window.location.host}/${res.data}`);
       })
       .catch(err => {
         console.log(err);
@@ -38,7 +39,7 @@ function CreateDecisions(props) {
 
   return (
     <div className='container-fluid tree-creator-page'>
-      {openModal && <ShareModal setIsOpen={setOpenModal} />}
+      {openModal && <ShareModal url={treeURL} setIsOpen={setOpenModal} />}
       <div className='row'>
         <div className='col-md-6 offset-md-3 col-10 text-center'>
           <h1>Create your tree</h1>
