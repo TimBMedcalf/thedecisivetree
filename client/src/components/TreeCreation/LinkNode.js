@@ -63,6 +63,8 @@ function LinkNode({ decisionTree, setDecisionTree, nodeNum }) {
 
   useEffect(() => {
     formatDecisionTreeSentences();
+    //Sets decision word to disabled if it has been used in another node
+    handleSentenceWords(previousNode);
   }, [decisionTree]);
 
   const handlePreviousNode = e => {

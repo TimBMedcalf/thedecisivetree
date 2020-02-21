@@ -95,7 +95,7 @@ function TheDecisionTree(props) {
         {noTreeSelected && (
           <div className='no-tree-found'>
             <h2>No decision tree found, would you like to make one?</h2>
-            <Link class='btn primary-button' to='/create'>
+            <Link className='btn primary-button' to='/create'>
               Create tree
             </Link>
           </div>
