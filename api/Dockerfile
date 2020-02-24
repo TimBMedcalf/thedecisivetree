@@ -2,14 +2,13 @@ FROM node:alpine
 
 RUN npm install -g nodemon
 
-RUN mkdir/server
-WORKDIR /
+WORKDIR /api
 
-COPY package*.json /server
+COPY package*.json /api
 
 RUN npm install
 
-COPY . /server
+COPY . 
 
 EXPOSE 8080
 
