@@ -1,0 +1,16 @@
+FROM node:alpine
+
+RUN npm install -g nodemon
+
+RUN mkdir/server
+WORKDIR /
+
+COPY package*.json /server
+
+RUN npm install
+
+COPY . /server
+
+EXPOSE 8080
+
+CMD ["node", "server.jjs"]

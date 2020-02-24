@@ -1,0 +1,15 @@
+FROM mhart/alpine-node:10.19.0
+
+RUN npm install -g nodemon
+
+WORKDIR /
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 8080
+
+CMD ["npm", "run", "dev"]
