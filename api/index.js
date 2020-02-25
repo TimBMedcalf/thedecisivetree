@@ -12,7 +12,7 @@ const port = 8080;
 
 app.use(bodyParser.json());
 
-mongoose.connect(process.env.DB_URL, {
+mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
