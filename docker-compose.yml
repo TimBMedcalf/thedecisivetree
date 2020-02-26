@@ -4,59 +4,21 @@ services:
     client:
         build: ./client .
         restart: always
-        image: webapp-client
+        image: client
         container_name: client
         ports:
-            - "3000:80"
+            - "80:80"
         working_dir: /client/src/app
         volumes:
             - ./client:/client/src/app
         links:
             - api
-        networks:
-            - webappnetwork
     api:
         build: ./api .
-        restart: unless-stopped
-        image: webapp-api
+        restart: always
         container_name: node-api
         ports:
             - "8080:8080"
         volumes:
             - ./api:/api
             - /api/node_modules
-        env_file: .env
-        environment:
-            - MONGO_USERNAME=$MONGO_USERNAME
-            - MONGO_PASSWORD=$MONGO_PASSWORD
-            - MONGO_HOSTNAME=$MONGO_HOSTNAME
-            - MONGO_PORT=$MONGO_PORT
-            - MONGO_DB=$MONGO_DB
-        depends_on:
-            - mongodb
-        networks:
-            - webappnetwork
-    mongodb:
-        image: mongo
-        restart: unless-stopped
-        container_name: mongodb
-        volumes:
-            - ./data-volume:/data/db
-        ports:
-            - 27017:27017
-        env_file: .env
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
-            - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
-            - MONGO_INITDB_DATABASE=$MONGO_DB
-        networks:
-            - webappnetwork
-networks:
-    webappnetwork:
-        driver: bridge
-
-volumes:
-    data-volume:
-    node_modules:
-    web-root:
-        driver: local

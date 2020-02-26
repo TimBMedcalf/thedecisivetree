@@ -1,4 +1,4 @@
-FROM node:alpine as build-deps
+FROM node:alpine as build
 WORKDIR /client
 COPY package.json yarn.lock ./
 RUN yarn
@@ -7,8 +7,8 @@ RUN yarn build
 
 # Stage 2 - the production environment
 FROM nginx:1.12-alpine
-COPY --from=build-deps /client/build /client/share/nginx/html
+COPY --from=build /client/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
-COPY ngnix/nginx.conf /etc/nginx/conf.d
+COPY nginx/nginx.conf /etc/nginx/conf.d
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]  
