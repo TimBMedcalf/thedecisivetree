@@ -12,14 +12,13 @@ const port = 8080;
 
 app.use(bodyParser.json());
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
+mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-});
+})
 
-const db = mongoose.connection;
+const db = mongoose.connection
 
-db.on('error', error => console.error(error));
 db.once('open', () => console.log('Connected to Database'));
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
@@ -33,6 +32,7 @@ app.get('/:urlId', async (req, res) => {
       return;
     } else if (data === null) {
       res.sendStatus(404);
+      return;
     }
 
     data = data.toObject();

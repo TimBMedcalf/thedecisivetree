@@ -28,7 +28,7 @@ function CreateDecisions(props) {
     }
     const tree = tempTree.length ? tempTree : decisionTree;
     axios
-      .post('/', tree)
+      .post('/api', tree)
       .then(res => {
         setTreeURL(`${window.location.host}/${res.data}`);
       })

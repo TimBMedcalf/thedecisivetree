@@ -44,7 +44,7 @@ function TheDecisionTree(props) {
   const getDecisionTree = new Promise((resolve, reject) => {
     if (typeof props.location !== 'undefined') {
       axios
-        .get(props.location.pathname)
+        .get(`api${props.location.pathname}`)
         .then(res => {
           if (res.data) {
             const tree = JSON.parse(res.data);
