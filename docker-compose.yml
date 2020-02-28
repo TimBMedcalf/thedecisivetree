@@ -2,7 +2,7 @@
 version: "3.7"
 services:
     client:
-        build: ./client .
+        build: ./client
         restart: always
         image: client
         container_name: client
@@ -14,7 +14,7 @@ services:
         links:
             - api
     api:
-        build: ./api .
+        build: ./api
         restart: always
         container_name: node-api
         ports:
