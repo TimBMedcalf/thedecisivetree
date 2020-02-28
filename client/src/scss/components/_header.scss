@@ -19,6 +19,11 @@
   .other-links {
     align-self: center;
     margin-right: 1em;
+    margin-bottom: 0.7em;
     font-size: 1.5em;
+    background-color: $primary;
+    color: #fff;
+    border-radius: 3px;
+    padding: 0.1em 1em;
   }
 }
